@@ -37,10 +37,15 @@ void changePosition(string pos, string name, List *&Head) {
     List* Pprev = NULL;
     if(P != NULL && pos.compare(P->pos) == 0) {
         Head = P->next;
-        delete P; 
+        delete P;
+        Pprev = Head;
+        while(Pprev != NULL && pos.compare(Pprev->pos) != 0) { 
+            if(name.compare(Pprev->name) == 0) Pprev->pos = pos;
+            Pprev=Pprev->next;
+        }
         return;
     } else {
-    while(P != NULL && pos.compare(P->pos) != 0) {
+    while(P != NULL && pos.compare(P->pos) != 0) { 
         if(name.compare(P->name) == 0) P->pos = pos;
         Pprev = P;
         P = P->next;
@@ -48,16 +53,20 @@ void changePosition(string pos, string name, List *&Head) {
     if(P == NULL) return;
     Pprev->next = P->next;
     delete P;
+    while(Pprev != NULL && pos.compare(Pprev->pos) != 0) { 
+        if(name.compare(Pprev->name) == 0) Pprev->pos = pos;
+        Pprev = Pprev->next;
+    }
     }
 }
 
 int main () {
     List *Head = NULL;
     createList(Head);
-    cout << endl << endl;
+    cout << endl;
     printList(Head);
-    cout << endl << endl;
     changePosition("h1", "king", Head);
+    cout << endl;
     printList(Head);
     
     return 0;
